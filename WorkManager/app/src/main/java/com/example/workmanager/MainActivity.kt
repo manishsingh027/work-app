@@ -7,9 +7,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.work.*
+import com.example.workmanager.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
     lateinit var workManager: WorkManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity() {
                                                     .build()
         val filteringWorkerRequest = OneTimeWorkRequestBuilder<FilteringWorker>()
                                                     .build()
+        val myWorkerRequest = OneTimeWorkRequestBuilder<FilteringWorker>()
+            .build()
         val compressingWorkerRequest = OneTimeWorkRequestBuilder<CompressingWorker>()
                                                     .build()
         val downloadingWorkerRequest = OneTimeWorkRequestBuilder<DownloadingWorker>()
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         workManager
             .beginWith(parallelWorker)
             .then(uploadRequest)
+            .then(myWorkerRequest)
             .enqueue()
             workManager.getWorkInfoByIdLiveData(uploadRequest.id).observe(this, Observer {
                 findViewById<TextView>(R.id.textView).text = it.state.toString()
