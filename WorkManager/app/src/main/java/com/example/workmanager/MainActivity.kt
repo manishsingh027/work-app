@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
                                                     .build()
         val filteringWorkerRequest = OneTimeWorkRequestBuilder<FilteringWorker>()
                                                     .build()
+        val myWorkerRequest = OneTimeWorkRequestBuilder<FilteringWorker>()
+            .build()
         val compressingWorkerRequest = OneTimeWorkRequestBuilder<CompressingWorker>()
                                                     .build()
         val downloadingWorkerRequest = OneTimeWorkRequestBuilder<DownloadingWorker>()
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         workManager
             .beginWith(parallelWorker)
             .then(uploadRequest)
+            .then(myWorkerRequest)
             .enqueue()
             workManager.getWorkInfoByIdLiveData(uploadRequest.id).observe(this, Observer {
                 findViewById<TextView>(R.id.textView).text = it.state.toString()
