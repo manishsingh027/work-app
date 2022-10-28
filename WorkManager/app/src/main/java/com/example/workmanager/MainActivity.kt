@@ -10,6 +10,7 @@ import androidx.work.*
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
+    var data = null;
     lateinit var workManager: WorkManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setOneTimeWorkRequest() {
 //        val oneTimeWorkRequest = OneTimeWorkRequest.Builder(UploadWorkerClass::class.java).build()
-        val data : Data = Data.Builder()
+         data : Data = Data.Builder()
                                 .putInt("KEY_COUNT_VALUE",125)
                                 .build()
 
